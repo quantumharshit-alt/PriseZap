@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Mobile Drawer Navigation ---
+  //  Mobile Drawer Navigation 
   const mobileToggle = document.querySelector('.mobile-menu-toggle');
   const mobileDrawer = document.querySelector('.mobile-drawer');
   
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Interactive Pricing Simulator (Hero Section) ---
+  //  Interactive Pricing Simulator (Hero Section) 
   const compSlider = document.getElementById('slider-competitor');
   const demandSlider = document.getElementById('slider-demand');
   const stockSlider = document.getElementById('slider-stock');
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePricingSimulator();
   }
 
-  // --- Excel/CSV Catalog Upload Handling ---
+  //  Excel/CSV Catalog Upload Handling 
   const csvFile = document.getElementById('csv-file');
   const fileName = document.getElementById('file-name');
 
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Interactive ROI Calculator ---
+  //  Interactive ROI Calculator 
   const salesSlider = document.getElementById('monthly-sales');
   const hoursSlider = document.getElementById('pricing-hours');
   const salesValText = document.getElementById('sales-val');
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCalculator();
   }
 
-  // --- Testimonials Carousel ---
+  //  Testimonials Carousel 
   const track = document.getElementById('testimonial-track');
   const slides = Array.from(track ? track.children : []);
   const nextButton = document.getElementById('next-testimonial');
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startTimer();
   }
 
-  // --- Reveal Animations on Scroll (Intersection Observer) ---
+  // Reveal Animations on Scroll (Intersection Observer) 
   const animateElements = document.querySelectorAll(
     '.feature-card, .step-card, .stat-card, .result-card, .calc-box, .comparison-table-wrapper'
   );
