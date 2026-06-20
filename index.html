@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PriceZap — AI-Powered Dynamic Pricing Engine</title>
+  <meta name="description" content="PriceZap uses demand forecasting, price elasticity, and live competitor data to set the perfect price — automatically, every single day.">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Ambient Grid Background -->
+  <div class="grid-overlay"></div>
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#" class="logo-link" id="logo">
+        <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="100%" stop-color="#00ff66" />
+            </linearGradient>
+            <linearGradient id="chevron-right-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8e8e8e" />
+              <stop offset="100%" stop-color="#444444" />
+            </linearGradient>
+          </defs>
+          <path d="M40,15 L15,35 V65 L40,85 V72 L23,58 V42 L40,28 Z" fill="#ffffff" />
+          <path d="M60,15 L85,35 V65 L60,85 V72 L77,58 V42 L60,28 Z" fill="url(#chevron-right-grad)" />
+          <path d="M54,10 L36,52 H49 L45,90 L64,46 H50 L54,10 Z" fill="url(#logo-grad)" />
+        </svg>
+        <span class="logo-text">Price<span class="text-zap">Zap</span></span>
+      </a>
+      
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#features">Products</a></li>
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#calculator">Pricing</a></li>
+          <li><a href="#how-it-works">Company</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-cta">
+        <a href="#signin" class="btn-text">Sign in</a>
+        <a href="#cta-section" class="btn-primary">Get started</a>
+      </div>
+
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <nav class="mobile-nav">
+      <ul>
+        <li><a href="#features">Products</a></li>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#calculator">Pricing</a></li>
+        <li><a href="#how-it-works">Company</a></li>
+        <li class="drawer-divider"></li>
+        <li><a href="#signin" class="btn-text">Sign in</a></li>
+        <li><a href="#cta-section" class="btn-primary">Get started</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            ML-powered · Real-time · Built for scale
+          </div>
+          <h1 class="hero-title">
+            Pricing that<br>
+            <span class="gradient-text">thinks for itself.</span>
+          </h1>
+          <p class="hero-description">
+            Replace messy manual spreadsheets. PriceZap uses demand forecasting, price elasticity, and live competitor data to set the perfect price and forecast scalability — automatically, every single day.
+          </p>
+          <div class="hero-actions">
+            <a href="#cta-section" class="btn-primary btn-lg">Get started free</a>
+            <a href="#demo" class="btn-secondary btn-lg" id="watch-demo-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Watch demo
+            </a>
+          </div>
+        </div>
+
+        <!-- Interactive Pricing Simulator Widget -->
+        <div class="hero-visual">
+          <div class="simulator-card">
+            <div class="simulator-header">
+              <div class="simulator-title">
+                <span class="status-indicator"></span>
+                PriceZap Dynamic Pricing Engine
+              </div>
+              <div class="simulator-badge">AI Active</div>
+            </div>
+            
+            <div class="simulator-body">
+              <div class="simulator-layout-grid">
+                <!-- Left: E-commerce Product Mock Card -->
+                <div class="product-preview-column">
+                  <div class="product-preview-card">
+                    <div class="product-badge">SKU #AP-4882</div>
+                    <div class="product-image-container">
+                      <svg viewBox="0 0 100 100" class="sneaker-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 3D premium sneaker outline -->
+                        <path d="M15,60 C15,60 30,55 35,53 C40,51 45,42 55,42 C65,42 85,38 88,48 C91,58 84,70 80,72 C76,74 25,74 20,72 Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+                        <path d="M48,42 L42,52 L26,55" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="78" cy="72" r="8" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="26" cy="72" r="8" stroke="currentColor" stroke-width="2"/>
+                      </svg>
+                    </div>
+                    <div class="product-details">
+                      <span class="product-cat">Apex Pro Runner 3D</span>
+                      <div class="product-stock-status">
+                        <span class="stock-dot" id="stock-dot-indicator"></span>
+                        <span id="stock-status-text">Healthy Stock (80 units)</span>
+                      </div>
+                      <div class="product-pricing">
+                        <div class="price-val-group">
+                          <span class="price-label">Live Dynamic Price</span>
+                          <span class="current-price" id="prod-current-price">₹7,999</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right: Chart and Sliders -->
+                <div class="simulator-controls-column">
+                  <div class="metric-display-group">
+                    <div class="sim-metric">
+                      <span class="sim-metric-label">Competitor Price</span>
+                      <span class="sim-metric-value" id="comp-val">₹8,900</span>
+                    </div>
+                    <div class="sim-metric highlight">
+                      <span class="sim-metric-label">PriceZap AI Price</span>
+                      <span class="sim-metric-value" id="zap-val">₹7,999</span>
+                    </div>
+                    <div class="sim-metric success">
+                      <span class="sim-metric-label">Proj. Margin Lift</span>
+                      <span class="sim-metric-value" id="lift-val">+18.4%</span>
+                    </div>
+                  </div>
+
+                  <!-- SVG Chart Area -->
+                  <div class="chart-container">
+                    <svg class="simulator-chart" id="sim-chart" viewBox="0 0 400 180">
+                      <defs>
+                        <linearGradient id="gradient-zap" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15" />
+                          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <!-- Grid Lines -->
+                      <line x1="0" y1="30" x2="400" y2="30" stroke="#1f1f1f" stroke-dasharray="4" />
+                      <line x1="0" y1="75" x2="400" y2="75" stroke="#1f1f1f" stroke-dasharray="4" />
+                      <line x1="0" y1="120" x2="400" y2="120" stroke="#1f1f1f" stroke-dasharray="4" />
+                      
+                      <!-- Area under AI curve -->
+                      <path id="chart-area-zap" fill="url(#gradient-zap)" d="" />
+                      
+                      <!-- Competitor Line -->
+                      <path id="chart-path-comp" stroke="#444444" stroke-width="2" stroke-dasharray="5 3" fill="none" d="" />
+                      
+                      <!-- PriceZap AI Line -->
+                      <path id="chart-path-zap" stroke="#ffffff" stroke-width="3.5" fill="none" d="" />
+                      
+                      <!-- Hover interactive point -->
+                      <circle id="chart-point" cx="240" cy="90" r="6" fill="#ffffff" stroke="#000000" stroke-width="2" />
+                    </svg>
+                    <div class="chart-legend">
+                      <span class="legend-item"><span class="legend-dot comp"></span>Competitor Trend</span>
+                      <span class="legend-item"><span class="legend-dot zap"></span>PriceZap AI Optima</span>
+                    </div>
+                  </div>
+
+                  <!-- Simulator Controls -->
+                  <div class="simulator-controls">
+                    <div class="control-row">
+                      <div class="control-label">
+                        <span>Competitor Action</span>
+                        <span class="control-value" id="slider-comp-val">Underpricing</span>
+                      </div>
+                      <input type="range" id="slider-competitor" min="0" max="100" value="35" class="custom-slider">
+                    </div>
+                    
+                    <div class="control-row">
+                      <div class="control-label">
+                        <span>Demand Elasticity</span>
+                        <span class="control-value" id="slider-demand-val">High Demand</span>
+                      </div>
+                      <input type="range" id="slider-demand" min="0" max="100" value="75" class="custom-slider">
+                    </div>
+                    
+                    <div class="control-row">
+                      <div class="control-label">
+                        <span>Inventory Level</span>
+                        <span class="control-value" id="slider-stock-val">Overstock</span>
+                      </div>
+                      <input type="range" id="slider-stock" min="0" max="100" value="80" class="custom-slider">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats & Trust Section -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 class="stat-number">+30%</h3>
+            <p class="stat-label">Revenue lift avg.</p>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card">
+            <h3 class="stat-number">95%</h3>
+            <p class="stat-label">Less manual work</p>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-card">
+            <h3 class="stat-number">70%</h3>
+            <p class="stat-label">Margin lift avg.</p>
+          </div>
+        </div>
+
+        <div class="trust-container">
+          <p class="trust-title">Trusted at industry-leading brands</p>
+          <div class="trust-logos">
+            <div class="logo-wrapper"><span>Myntra</span></div>
+            <div class="logo-wrapper"><span>Nykaa</span></div>
+            <div class="logo-wrapper"><span>Meesho</span></div>
+            <div class="logo-wrapper"><span>BigBasket</span></div>
+            <div class="logo-wrapper"><span>Snapdeal</span></div>
+            <div class="logo-wrapper"><span>Ajio</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Capabilities Section -->
+    <section id="features" class="features-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Core capabilities</span>
+          <h2 class="section-title">Everything your pricing team needs.</h2>
+          <p class="section-subtitle">From live competitor tracking to ML-powered optimization — PriceZap handles the full pricing lifecycle.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- Card 1 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"></path><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path></svg>
+            </div>
+            <h3 class="feature-title">Demand forecasting</h3>
+            <p class="feature-text">Prophet + LSTM models predict units sold at any price point — days in advance.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <h3 class="feature-title">Price elasticity engine</h3>
+            <p class="feature-text">Know exactly how sensitive customers are to price changes per product category.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+            </div>
+            <h3 class="feature-title">Competitor intelligence</h3>
+            <p class="feature-text">Track competitor prices in real time. Auto-adjust when rivals move on your key SKUs.</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14h6M12 11v6"></path></svg>
+            </div>
+            <h3 class="feature-title">A/B price testing</h3>
+            <p class="feature-text">Run controlled experiments with statistical significance testing to find winning prices.</p>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3 class="feature-title">AI recommendations</h3>
+            <p class="feature-text">Optimal price suggestions with confidence scores and plain-English reasoning per SKU.</p>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="21" x2="9" y2="9"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="15" x2="21" y2="15"></line></svg>
+            </div>
+            <h3 class="feature-title">Revenue analytics</h3>
+            <p class="feature-text">Live dashboards showing revenue impact, margin trends, and price history per product.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">How it works</span>
+          <h2 class="section-title">Live in 4 steps.</h2>
+          <p class="section-subtitle">PriceZap runs in the background continuously — you just review and approve.</p>
+        </div>
+
+        <div class="how-steps">
+          <div class="step-card">
+            <div class="step-num">Step 01</div>
+            <h3 class="step-title">Connect your data</h3>
+            <p class="step-text">Plug in your product catalog, sales history, and inventory via REST API or CSV.</p>
+          </div>
+          <div class="step-connector"></div>
+          
+          <div class="step-card">
+            <div class="step-num">Step 02</div>
+            <h3 class="step-title">Models train</h3>
+            <p class="step-text">Demand forecasting and elasticity models learn your unique product patterns.</p>
+          </div>
+          <div class="step-connector"></div>
+
+          <div class="step-card">
+            <div class="step-num">Step 03</div>
+            <h3 class="step-title">Get recommendations</h3>
+            <p class="step-text">AI suggests optimal prices with confidence scores and predicted revenue impact.</p>
+          </div>
+          <div class="step-connector"></div>
+
+          <div class="step-card">
+            <div class="step-num">Step 04</div>
+            <h3 class="step-title">Apply and track</h3>
+            <p class="step-text">One-click apply or full auto-pilot. Track revenue impact live on your dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive ROI Calculator Section (Extra Value Add) -->
+    <section id="calculator" class="calculator-section">
+      <div class="container">
+        <div class="calc-box">
+          <div class="calc-header">
+            <h2 class="calc-title">Estimate your PriceZap Growth.</h2>
+            <p class="calc-subtitle">Input your current sales and spreadsheet workload to see the impact of automated pricing.</p>
+          </div>
+          
+          <div class="calc-body">
+            <div class="calc-inputs">
+              <div class="calc-input-group">
+                <div class="calc-input-header">
+                  <label for="monthly-sales">Monthly E-commerce Revenue</label>
+                  <span class="calc-input-val" id="sales-val">₹50 Lakhs</span>
+                </div>
+                <input type="range" id="monthly-sales" min="100000" max="50000000" step="50000" value="5000000" class="custom-slider">
+                <div class="slider-ticks">
+                  <span>₹1 Lakh</span>
+                  <span>₹50 Lakhs</span>
+                  <span>₹1 Crore</span>
+                  <span>₹5 Crores</span>
+                </div>
+              </div>
+              
+              <div class="calc-input-group">
+                <div class="calc-input-header">
+                  <label for="pricing-hours">Weekly Manual Excel Hours</label>
+                  <span class="calc-input-val" id="hours-val">12 hours</span>
+                </div>
+                <input type="range" id="pricing-hours" min="2" max="60" step="1" value="12" class="custom-slider">
+                <div class="slider-ticks">
+                  <span>2h (Small shop)</span>
+                  <span>20h</span>
+                  <span>40h</span>
+                  <span>60h (Enterprise)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="calc-outputs">
+              <div class="calc-out-card">
+                <div class="calc-out-label">Est. Monthly Profit Gain</div>
+                <div class="calc-out-val" id="gain-rev">₹6,00,000</div>
+                <div class="calc-out-desc">Based on avg +28% revenue lift</div>
+              </div>
+              <div class="calc-out-card">
+                <div class="calc-out-label">Excel Hours Saved / Month</div>
+                <div class="calc-out-val" id="gain-time">31 hours</div>
+                <div class="calc-out-desc">Based on 65% automation rate</div>
+              </div>
+              <div class="calc-out-card full-width">
+                <div class="calc-out-label">Estimated Business Scalability Lift</div>
+                <div class="calc-out-val" id="gain-margin">+15.0%</div>
+                <div class="calc-out-desc">Forecasted margin scale through dynamic elasticity</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Results</span>
+          <h2 class="section-title">Numbers that speak for themselves.</h2>
+          <p class="section-subtitle">Average results across PriceZap customers in their first 90 days.</p>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-card">
+            <h3 class="result-value">+28%</h3>
+            <p class="result-label">Revenue lift in first 90 days</p>
+          </div>
+          <div class="result-card">
+            <h3 class="result-value">−65%</h3>
+            <p class="result-label">Less time spent on manual pricing</p>
+          </div>
+          <div class="result-card">
+            <h3 class="result-value">+15%</h3>
+            <p class="result-label">Gross margin improvement</p>
+          </div>
+          <div class="result-card">
+            <h3 class="result-value">3.2x</h3>
+            <p class="result-label">Return on investment</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Testimonials</span>
+          <h2 class="section-title">What teams are saying.</h2>
+          <p class="section-subtitle">Real feedback from pricing managers using PriceZap every day.</p>
+        </div>
+
+        <div class="carousel-container">
+          <div class="carousel-track" id="testimonial-track">
+            <!-- Slide 1 -->
+            <div class="testimonial-slide active">
+              <div class="testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="testimonial-text">"PriceZap cut our weekly pricing review from 8 hours to 20 minutes. The AI recommendations are scary accurate."</p>
+                <div class="testimonial-author">
+                  <div class="avatar">RK</div>
+                  <div class="author-info">
+                    <h4 class="author-name">Rahul Kumar</h4>
+                    <p class="author-title">Pricing Manager, Myntra</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="testimonial-slide">
+              <div class="testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="testimonial-text">"We saw a 31% revenue jump in month one. The competitor tracking alone is worth it — we never miss a rival price drop."</p>
+                <div class="testimonial-author">
+                  <div class="avatar">PS</div>
+                  <div class="author-info">
+                    <h4 class="author-name">Priya Sharma</h4>
+                    <p class="author-title">Head of Growth, Nykaa</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="testimonial-slide">
+              <div class="testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="testimonial-text">"The A/B testing feature is a game changer. We finally have data to back our pricing instead of just gut feeling."</p>
+                <div class="testimonial-author">
+                  <div class="avatar">AM</div>
+                  <div class="author-info">
+                    <h4 class="author-name">Arjun Mehta</h4>
+                    <p class="author-title">VP Product, Meesho</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-controls">
+            <button class="carousel-btn prev-btn" id="prev-testimonial" aria-label="Previous Testimonial">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            <div class="carousel-dots" id="carousel-dots">
+              <span class="dot active" data-index="0"></span>
+              <span class="dot" data-index="1"></span>
+              <span class="dot" data-index="2"></span>
+            </div>
+            <button class="carousel-btn next-btn" id="next-testimonial" aria-label="Next Testimonial">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="solutions" class="comparison-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-tag">Why PriceZap</span>
+          <h2 class="section-title">Better than rule-based pricing.</h2>
+          <p class="section-subtitle">See why teams move from manual spreadsheets to PriceZap.</p>
+        </div>
+
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature Capability</th>
+                <th class="col-manual">Manual / Rule-based<span class="col-sub">Old way</span></th>
+                <th class="col-zap">PriceZap AI<span class="col-sub highlight-text">New way</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Learning & Adaptation</strong></td>
+                <td>Static rules, no learning</td>
+                <td class="col-zap-val">ML models that learn and adapt</td>
+              </tr>
+              <tr>
+                <td><strong>Pricing Workflow</strong></td>
+                <td>Hours of spreadsheet work</td>
+                <td class="col-zap-val">Fully automated workflow</td>
+              </tr>
+              <tr>
+                <td><strong>Demand Forecasting</strong></td>
+                <td>No demand forecasting</td>
+                <td class="col-zap-val">Prophet + LSTM forecasting</td>
+              </tr>
+              <tr>
+                <td><strong>Competitor Tracking</strong></td>
+                <td>Miss competitor changes</td>
+                <td class="col-zap-val">Real-time competitor tracking</td>
+              </tr>
+              <tr>
+                <td><strong>Testing Engine</strong></td>
+                <td>No A/B testing built in</td>
+                <td class="col-zap-val">Built-in A/B testing engine</td>
+              </tr>
+              <tr>
+                <td><strong>API Speed</strong></td>
+                <td>Delayed, manual updates</td>
+                <td class="col-zap-val">Instant price updates via API</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="cta-section" class="cta-section">
+      <div class="container text-center">
+        <h2 class="cta-title">Ready to zap your pricing strategy?</h2>
+        <p class="cta-subtitle">Join teams already using PriceZap to maximize revenue with AI-driven pricing. Free to start.</p>
+        <div class="cta-actions">
+          <a href="#register" class="btn-primary btn-lg">Get started free</a>
+          <a href="#contact" class="btn-secondary btn-lg">Talk to us</a>
+        </div>
+        <p class="cta-notes">No credit card required · 14-day free trial · Cancel anytime</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <a href="#" class="logo-link">
+          <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logo-grad-footer" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#00ff66" />
+              </linearGradient>
+              <linearGradient id="chevron-right-grad-footer" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8e8e8e" />
+                <stop offset="100%" stop-color="#444444" />
+              </linearGradient>
+            </defs>
+            <path d="M40,15 L15,35 V65 L40,85 V72 L23,58 V42 L40,28 Z" fill="#ffffff" />
+            <path d="M60,15 L85,35 V65 L60,85 V72 L77,58 V42 L60,28 Z" fill="url(#chevron-right-grad-footer)" />
+            <path d="M54,10 L36,52 H49 L45,90 L64,46 H50 L54,10 Z" fill="url(#logo-grad-footer)" />
+          </svg>
+          <span class="logo-text">Price<span class="text-zap">Zap</span></span>
+        </a>
+        <p class="footer-desc">AI-powered dynamic pricing engine built for modern digital commerce.</p>
+      </div>
+      
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+            <li><a href="#calculator">ROI Calculator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="#privacy">Privacy Policy</a></li>
+            <li><a href="#terms">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 PriceZap. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#github" aria-label="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
