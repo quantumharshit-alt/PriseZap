@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  //  Mobile Drawer Navigation 
+  // --- Mobile Drawer Navigation ---
   const mobileToggle = document.querySelector('.mobile-menu-toggle');
   const mobileDrawer = document.querySelector('.mobile-drawer');
   
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  //  Interactive Pricing Simulator (Hero Section) 
+  // --- Interactive Pricing Simulator (Hero Section) ---
   const compSlider = document.getElementById('slider-competitor');
   const demandSlider = document.getElementById('slider-demand');
   const stockSlider = document.getElementById('slider-stock');
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePricingSimulator();
   }
 
-  //  Excel/CSV Catalog Upload Handling 
+  // --- Excel/CSV Catalog Upload Handling ---
   const csvFile = document.getElementById('csv-file');
   const fileName = document.getElementById('file-name');
 
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const validProducts = data.filter(row => row.product_name && row.price);
           
           if (validProducts.length > 0) {
-            alert(`🎉 Successfully parsed Excel CSV! Loaded ${validProducts.length} products.`);
+            showToast(`Successfully parsed CSV! Loaded ${validProducts.length} products.`, 'success');
             
             // Extract details of the first product
             const firstProd = validProducts[0];
@@ -268,14 +268,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Recalculate optimizer outputs based on the new data
             updatePricingSimulator();
           } else {
-            alert("⚠️ No valid products found. Make sure your CSV file has 'product_name' and 'price' as headers.");
+            showToast("No valid products found. Make sure your CSV file has 'product_name' and 'price' as headers.", 'warning');
           }
         }
       });
     });
   }
 
-  //  Interactive ROI Calculator 
+  // --- Interactive ROI Calculator ---
   const salesSlider = document.getElementById('monthly-sales');
   const hoursSlider = document.getElementById('pricing-hours');
   const salesValText = document.getElementById('sales-val');
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCalculator();
   }
 
-  //  Testimonials Carousel 
+  // --- Testimonials Carousel ---
   const track = document.getElementById('testimonial-track');
   const slides = Array.from(track ? track.children : []);
   const nextButton = document.getElementById('next-testimonial');
@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startTimer();
   }
 
-  // Reveal Animations on Scroll (Intersection Observer) 
+  // --- Reveal Animations on Scroll (Intersection Observer) ---
   const animateElements = document.querySelectorAll(
     '.feature-card, .step-card, .stat-card, .result-card, .calc-box, .comparison-table-wrapper'
   );
@@ -414,4 +414,457 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   `;
   document.head.appendChild(style);
+
+  // ============ DYNAMIC DASHBOARD PREVIEW LOGIC ============
+  
+  // --- Mock Database (Products Data) ---
+  const products = [
+    { 
+      id: 1, 
+      name: "Apex Pro Shoes", 
+      base_price: 3000, 
+      price: 4499, 
+      competitor_price: 4299, 
+      stock: 80, 
+      demand_elasticity: 50, 
+      status: "Overpriced" 
+    },
+    { 
+      id: 2, 
+      name: "Running Shorts", 
+      base_price: 800, 
+      price: 1199, 
+      competitor_price: 1250, 
+      stock: 120, 
+      demand_elasticity: 75, 
+      status: "Underpriced" 
+    },
+    { 
+      id: 3, 
+      name: "Sports Socks", 
+      base_price: 400, 
+      price: 899, 
+      competitor_price: 900, 
+      stock: 35, 
+      demand_elasticity: 45, 
+      status: "Optimal" 
+    },
+    { 
+      id: 4, 
+      name: "Gym Bag Pro", 
+      base_price: 1500, 
+      price: 2199, 
+      competitor_price: 2450, 
+      stock: 15, 
+      demand_elasticity: 80, 
+      status: "Overpriced" 
+    }
+  ];
+
+  let selectedProductId = 1;
+
+  // --- Elements ---
+  const attentionList = document.getElementById('attention-list');
+  const barChartRender = document.getElementById('bar-chart-render');
+  const kpiRevenue = document.getElementById('kpi-revenue');
+  const kpiOrders = document.getElementById('kpi-orders');
+  const kpiAvgPrice = document.getElementById('kpi-avgprice');
+  const kpiChanges = document.getElementById('kpi-changes');
+  const runOptimizerBtn = document.getElementById('btn-run-optimizer');
+
+  // --- Core Dynamic Pricing Math Logic ---
+  function calculateProductOptimal(prod) {
+    const competitorPrice = prod.competitor_price;
+    const elasticity = prod.demand_elasticity;
+    const stock = prod.stock;
+
+    // Demand pricing factor: high elasticity = capture premium margins, low elasticity = lower price
+    const demandMultiplier = 1 + ((elasticity - 50) / 330);
+
+    // Stock liquidation factor: low units = raise price, overstock = discount
+    let stockFactor = 0;
+    if (stock < 30) {
+      stockFactor = (30 - stock) * 15; // raise price
+    } else if (stock > 70) {
+      stockFactor = -(stock - 70) * 12; // lower price
+    }
+
+    let optimalPrice = competitorPrice * demandMultiplier + stockFactor;
+
+    // Floor guardrail: cost price + 8% margin
+    const floorPrice = prod.base_price * 1.08;
+    if (optimalPrice < floorPrice) {
+      optimalPrice = floorPrice;
+    }
+
+    // Determine status badge
+    let status = "Optimal";
+    const percentDiff = ((prod.price - optimalPrice) / optimalPrice) * 100;
+    if (percentDiff > 5) {
+      status = "Overpriced";
+    } else if (percentDiff < -5) {
+      status = "Underpriced";
+    }
+
+    return {
+      price: Math.round(optimalPrice),
+      status: status
+    };
+  }
+
+  // --- Render Products List ---
+  function renderProductsList() {
+    if (!attentionList) return;
+    attentionList.innerHTML = '';
+    
+    products.forEach(prod => {
+      const item = document.createElement('div');
+      item.className = `dp-prod-row ${prod.id === selectedProductId ? 'active-prod' : ''}`;
+      item.dataset.id = prod.id;
+      item.style.cursor = 'pointer';
+      
+      const badgeClass = prod.status === 'Optimal' ? 'ok' : (prod.status === 'Overpriced' ? 'over' : 'under');
+      const badgeIcon = prod.status === 'Optimal' ? 'Optimal' : prod.status;
+
+      item.innerHTML = `
+        <div>
+          <div class="dp-prod-name">${prod.name}</div>
+          <div class="dp-prod-rec">AI rec: ₹${prod.price.toLocaleString('en-IN')}</div>
+        </div>
+        <span class="mini-badge ${badgeClass}">${badgeIcon}</span>
+      `;
+
+      item.addEventListener('click', () => {
+        selectedProductId = prod.id;
+        renderProductsList();
+        updateDashboardKPIs();
+      });
+
+      attentionList.appendChild(item);
+    });
+  }
+
+  // --- Calculate Dashboard Telemetrics ---
+  function updateDashboardKPIs() {
+    const activeProd = products.find(p => p.id === selectedProductId);
+    if (activeProd) {
+      const calculations = calculateProductOptimal(activeProd);
+      activeProd.price = calculations.price;
+      activeProd.status = calculations.status;
+    }
+
+    // Compute Dashboard Averages
+    let totalRevenue = 210000;
+    let totalOrders = 1750;
+    let totalPriceSum = 0;
+    let aiChanges = 120;
+
+    products.forEach(p => {
+      totalPriceSum += p.price;
+      if (p.status !== 'Optimal') {
+        aiChanges += 6;
+      }
+    });
+
+    const averagePrice = Math.round(totalPriceSum / products.length);
+
+    // Dynamic metrics reaction to selected product's adjustments
+    const revenueShift = activeProd ? Math.round((activeProd.price / 4000) * 30000) : 0;
+    const orderShift = activeProd ? Math.round((activeProd.stock / 80) * 97) : 0;
+
+    if (kpiRevenue) {
+      kpiRevenue.textContent = `₹${((totalRevenue + revenueShift) / 100000).toFixed(1)}L`;
+    }
+    if (kpiOrders) {
+      kpiOrders.textContent = (totalOrders + orderShift).toLocaleString('en-IN');
+    }
+    if (kpiAvgPrice) {
+      kpiAvgPrice.textContent = `₹${averagePrice.toLocaleString('en-IN')}`;
+    }
+    if (kpiChanges) {
+      kpiChanges.textContent = aiChanges;
+    }
+
+    // Redraw chart
+    if (activeProd) {
+      renderRevenueChart(activeProd.price, activeProd.demand_elasticity);
+    }
+  }
+
+  // --- Render 7-day Revenue Chart bars ---
+  function renderRevenueChart(activePrice, activeDemand) {
+    if (!barChartRender) return;
+    barChartRender.innerHTML = '';
+    
+    // 7 mock base data levels
+    const baseDays = [14000, 18000, 15000, 22000, 28000, 32000, 29000];
+    
+    // Distort chart based on current configurations
+    const modifier = (activePrice / 5000) * (activeDemand / 50);
+
+    baseDays.forEach((val, index) => {
+      const adjustedVal = Math.round(val * modifier);
+      const heightPercent = Math.min(100, Math.max(10, Math.round((adjustedVal / 45000) * 100)));
+
+      const bar = document.createElement('div');
+      const isActive = index >= 4;
+      bar.className = `dp-bar ${isActive ? 'active' : ''}`;
+      bar.style.height = `${heightPercent}%`;
+      bar.title = `₹${adjustedVal.toLocaleString('en-IN')}`;
+
+      barChartRender.appendChild(bar);
+    });
+  }
+
+  // --- Run Optimizer Animation Sequence ---
+  function runOptimizer() {
+    if (!runOptimizerBtn) return;
+    runOptimizerBtn.disabled = true;
+    runOptimizerBtn.innerHTML = `
+      <svg class="btn-icon spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+      Optimizing...
+    `;
+
+    // Play flash animations on list
+    let count = 0;
+    const interval = setInterval(() => {
+      products.forEach(p => {
+        p.status = Math.random() > 0.5 ? 'Optimal' : 'Underpriced';
+      });
+      renderProductsList();
+      count++;
+
+      if (count > 6) {
+        clearInterval(interval);
+        
+        // Finalize all products to OPTIMAL state
+        products.forEach(p => {
+          p.status = 'Optimal';
+          p.price = p.competitor_price;
+        });
+
+        renderProductsList();
+        updateDashboardKPIs();
+        showOptimizerToast();
+
+        runOptimizerBtn.disabled = false;
+        runOptimizerBtn.innerHTML = `
+          <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          Run optimizer
+        `;
+      }
+    }, 150);
+  }
+
+  // --- Toast Notification System ---
+  function showToast(message, type = 'success') {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    let iconSvg = '';
+    if (type === 'success') {
+      iconSvg = `<svg class="toast-icon toast-icon-success" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+    } else if (type === 'warning') {
+      iconSvg = `<svg class="toast-icon toast-icon-warning" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
+    } else if (type === 'error') {
+      iconSvg = `<svg class="toast-icon toast-icon-error" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`;
+    }
+
+    toast.innerHTML = `
+      ${iconSvg}
+      <span>${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 50);
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => {
+        toast.remove();
+        if (container.children.length === 0) {
+          container.remove();
+        }
+      }, 400);
+    }, 4000);
+  }
+
+  function showOptimizerToast() {
+    showToast("Pricing Optimized! 12 SKU conflicts auto-resolved.", "success");
+  }
+
+  // --- Initialize Dashboard State ---
+  if (runOptimizerBtn) {
+    runOptimizerBtn.addEventListener('click', runOptimizer);
+  }
+  renderProductsList();
+  updateDashboardKPIs();
+
+  // ============ LOGIN MODAL & SESSION CONTROL ============
+  
+  const loginModal = document.getElementById('login-modal');
+  const closeLoginBtn = document.getElementById('close-login-btn');
+  const loginForm = document.getElementById('login-form');
+  const loginSubmitBtn = document.getElementById('login-submit-btn');
+  
+  // Header Elements
+  const headerSigninBtn = document.getElementById('header-signin-btn');
+  const headerSignupBtn = document.getElementById('header-signup-btn');
+  const userProfile = document.getElementById('user-profile');
+  const logoutBtn = document.getElementById('logout-btn');
+  
+  // Mobile elements
+  const drawerSigninItem = document.querySelector('.drawer-signin-item');
+  const drawerSignupItem = document.querySelector('.drawer-signup-item');
+  const drawerUserItem = document.querySelector('.drawer-user-item');
+  const logoutMobileBtn = document.querySelector('.btn-logout-mobile');
+
+  // Trigger elements
+  const signinTriggers = document.querySelectorAll('.signin-trigger');
+  
+  // Open Modal
+  signinTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (loginModal) {
+        loginModal.classList.add('open');
+        const emailInput = document.getElementById('login-email');
+        if (emailInput) emailInput.focus();
+      }
+    });
+  });
+
+  // Close Modal (Close button or click overlay background)
+  function closeLoginModal() {
+    if (loginModal) {
+      loginModal.classList.remove('open');
+      if (loginForm) loginForm.reset();
+    }
+  }
+
+  if (closeLoginBtn) {
+    closeLoginBtn.addEventListener('click', closeLoginModal);
+  }
+
+  if (loginModal) {
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal) {
+        closeLoginModal();
+      }
+    });
+  }
+
+  // Handle Escape Key to close modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && loginModal && loginModal.classList.contains('open')) {
+      closeLoginModal();
+    }
+  });
+
+  // Form Submit Handler (Mock validation and session updates)
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('login-email').value;
+      
+      if (loginSubmitBtn) {
+        loginSubmitBtn.disabled = true;
+        loginSubmitBtn.innerHTML = `
+          <svg class="btn-icon spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+          Signing in...
+        `;
+      }
+
+      // Mock API latency
+      setTimeout(() => {
+        // Reset submit button state
+        if (loginSubmitBtn) {
+          loginSubmitBtn.disabled = false;
+          loginSubmitBtn.innerHTML = 'Sign in';
+        }
+
+        // Close modal
+        closeLoginModal();
+
+        // Extract first name for greeting customization
+        const username = email.split('@')[0];
+        const formattedName = username.charAt(0).toUpperCase() + username.slice(1);
+
+        // Update active user profile details in layout
+        const userAvatars = document.querySelectorAll('.user-avatar');
+        const userNames = document.querySelectorAll('.user-name');
+        
+        userAvatars.forEach(avatar => avatar.textContent = formattedName.substring(0, 2).toUpperCase());
+        if (userNames[0]) userNames[0].textContent = formattedName;
+        if (userNames[1]) userNames[1].textContent = formattedName + ' Thakur';
+
+        // Swap Header Elements (Header session state)
+        if (headerSigninBtn) headerSigninBtn.style.display = 'none';
+        if (headerSignupBtn) headerSignupBtn.style.display = 'none';
+        if (userProfile) userProfile.style.display = 'flex';
+
+        // Swap Mobile Drawer Navigation Elements
+        if (drawerSigninItem) drawerSigninItem.style.display = 'none';
+        if (drawerSignupItem) drawerSignupItem.style.display = 'none';
+        if (drawerUserItem) drawerUserItem.style.display = 'flex';
+
+        // Dynamically update dashboard greeting to match logged-in user
+        const greetingUserLabel = document.querySelector('.greeting-user');
+        if (greetingUserLabel) {
+          greetingUserLabel.textContent = `Good morning, ${formattedName}`;
+        }
+
+        // Show welcome toast notification
+        showToast(`Welcome back, ${formattedName}! Redirecting to dashboard...`, 'success');
+
+      }, 1500);
+    });
+  }
+
+  // Handle Logout Logic
+  function handleLogout() {
+    // Show logout toast
+    showToast("Logged out successfully.", "info");
+
+    // Restore Header State
+    if (headerSigninBtn) headerSigninBtn.style.display = 'inline-block';
+    if (headerSignupBtn) headerSignupBtn.style.display = 'inline-block';
+    if (userProfile) userProfile.style.display = 'none';
+
+    // Restore Mobile Drawer State
+    if (drawerSigninItem) drawerSigninItem.style.display = 'block';
+    if (drawerSignupItem) drawerSignupItem.style.display = 'block';
+    if (drawerUserItem) drawerUserItem.style.display = 'none';
+
+    // Restore default greeting details
+    const greetingUserLabel = document.querySelector('.greeting-user');
+    if (greetingUserLabel) {
+      greetingUserLabel.textContent = 'Good morning, Harshit';
+    }
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  }
+
+  if (logoutMobileBtn) {
+    logoutMobileBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  }
 });
