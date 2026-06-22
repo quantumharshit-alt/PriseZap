@@ -49,8 +49,13 @@
       </nav>
 
       <div class="header-cta">
-        <a href="#signin" class="btn-text">Sign in</a>
-        <a href="#cta-section" class="btn-primary">Get started</a>
+        <a href="#signin" class="btn-text signin-trigger" id="header-signin-btn">Sign in</a>
+        <a href="#cta-section" class="btn-primary" id="header-signup-btn">Get started</a>
+        <div class="user-profile-badge" id="user-profile" style="display: none;">
+          <span class="user-avatar">HT</span>
+          <span class="user-name">Harshit</span>
+          <a href="#logout" class="btn-logout" id="logout-btn">Log out</a>
+        </div>
       </div>
 
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
@@ -70,8 +75,15 @@
         <li><a href="#calculator">Pricing</a></li>
         <li><a href="#how-it-works">Company</a></li>
         <li class="drawer-divider"></li>
-        <li><a href="#signin" class="btn-text">Sign in</a></li>
-        <li><a href="#cta-section" class="btn-primary">Get started</a></li>
+        <li class="drawer-signin-item"><a href="#signin" class="btn-text signin-trigger">Sign in</a></li>
+        <li class="drawer-signup-item"><a href="#cta-section" class="btn-primary">Get started</a></li>
+        <li class="drawer-user-item" style="display: none;">
+          <div class="drawer-user-info">
+            <span class="user-avatar">HT</span>
+            <span class="user-name">Harshit Thakur</span>
+          </div>
+          <a href="#logout" class="btn-logout-mobile">Log out</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -1095,6 +1107,54 @@
       </div>
     </div>
   </footer>
+
+  <!-- Login Modal Overlay -->
+  <div class="login-modal-overlay" id="login-modal">
+    <div class="login-modal-card">
+      <button class="login-modal-close" id="close-login-btn" aria-label="Close modal">&times;</button>
+      <div class="login-modal-header">
+        <div class="login-modal-logo">
+          <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logo-grad-login" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#00ff66" />
+              </linearGradient>
+              <linearGradient id="chevron-right-grad-login" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8e8e8e" />
+                <stop offset="100%" stop-color="#444444" />
+              </linearGradient>
+            </defs>
+            <path d="M40,15 L15,35 V65 L40,85 V72 L23,58 V42 L40,28 Z" fill="#ffffff" />
+            <path d="M60,15 L85,35 V65 L60,85 V72 L77,58 V42 L60,28 Z" fill="url(#chevron-right-grad-login)" />
+            <path d="M54,10 L36,52 H49 L45,90 L64,46 H50 L54,10 Z" fill="url(#logo-grad-login)" />
+          </svg>
+          <span class="logo-text">Price<span class="text-zap">Zap</span></span>
+        </div>
+        <h2>Welcome back</h2>
+        <p class="login-subtitle">Enter your credentials to access your pricing dashboard</p>
+      </div>
+      <form id="login-form" class="login-modal-form">
+        <div class="form-group">
+          <label for="login-email">Work Email</label>
+          <input type="email" id="login-email" required placeholder="name@company.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <div class="label-row">
+            <label for="login-password">Password</label>
+            <a href="#forgot" class="forgot-link">Forgot password?</a>
+          </div>
+          <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary login-submit-btn" id="login-submit-btn">
+          Sign in
+        </button>
+      </form>
+      <div class="login-modal-footer">
+        Don't have an account? <a href="#cta-section" class="signup-link" id="login-signup-link">Get started free</a>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <script src="app.js"></script>
