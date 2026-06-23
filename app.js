@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Run Optimizer Animation Sequence ---
-  function runOptimizer() {
+  async function runOptimizer() {
     if (!runOptimizerBtn) return;
     runOptimizerBtn.disabled = true;
     runOptimizerBtn.innerHTML = `
@@ -633,11 +633,53 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       renderProductsList();
       count++;
+    }, 150);
 
-      if (count > 6) {
+    try {
+      // Fetch sync updates from local backend API
+      const response = await fetch('http://localhost:5000/api/pricing/sync-competitors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      const result = await response.json();
+      clearInterval(interval);
+
+      if (result.success) {
+        // Sync our local state with the actual backend database responses
+        result.details.forEach(update => {
+          const localProd = products.find(p => p.id === update.product_id);
+          if (localProd) {
+            localProd.price = update.new_price;
+            localProd.competitor_price = update.competitor_price;
+            localProd.status = 'Optimal';
+          }
+        });
+
+        // Set all other unchanged products to Optimal
+        products.forEach(p => {
+          if (!result.details.some(u => u.product_id === p.id)) {
+            p.status = 'Optimal';
+          }
+        });
+
+        renderProductsList();
+        updateDashboardKPIs();
+        
+        // Show actual API update metrics in toast
+        showToast(`Pricing Optimized! Sync complete. ${result.updated_skus} SKU changes applied.`, "success");
+      } else {
+        throw new Error(result.error || 'Failed to sync');
+      }
+
+    } catch (err) {
+      // Fallback: If backend server is offline/unavailable, gracefully run client simulation
+      console.warn('Backend server offline. Running simulated rules optimization. Error:', err.message);
+      
+      setTimeout(() => {
         clearInterval(interval);
         
-        // Finalize all products to OPTIMAL state
+        // Finalize all products to OPTIMAL state simulation
         products.forEach(p => {
           p.status = 'Optimal';
           p.price = p.competitor_price;
@@ -645,15 +687,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         renderProductsList();
         updateDashboardKPIs();
-        showOptimizerToast();
-
+        showOptimizerToast(); // standard client-side toast fallback
+      }, Math.max(100, 1000 - (count * 150)));
+    } finally {
+      setTimeout(() => {
         runOptimizerBtn.disabled = false;
         runOptimizerBtn.innerHTML = `
           <svg class="btn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
           Run optimizer
         `;
-      }
-    }, 150);
+      }, 200);
+    }
   }
 
   // --- Toast Notification System ---
